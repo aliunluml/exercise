@@ -9,10 +9,10 @@ class Point:
 
 
 class Trail:
-    def __init__(self,points=[]):
-        self.points=points
-        self.sum=sum([p.value for p in points]) if len(points)!=0 else 0
-        self.end=points[-1].pos if len(points)!=0 else (0,0)
+    def __init__(self,points=None):
+        self.points=points if points is not None else []
+        self.sum=sum([p.value for p in points]) if points is not None else 0
+        self.end=points[-1].pos if points is not None else (0,0)
 
     def add_point(self,point):
         self.points.append(point)
@@ -44,7 +44,7 @@ def main(args):
             new_trails=[]
             for trail in trails:
                 pos=trail.end
-                new_trail=copy.copy(trail)
+                new_trail=copy.deepcopy(trail)
                 trail.add_point(row_points[pos[0]])
                 new_trail.add_point(row_points[pos[0]+1])
                 new_trails.append(new_trail)
@@ -53,20 +53,16 @@ def main(args):
             start.add_point(row_points[0])
         y+=1
 
-    # best_trail=Trail() has a bug
-    # best_trail=Trail([])
 
+    best_trail=Trail()
     for trail in trails:
-        print([p.pos for p in trail.points])
-
-    # for trail in trails:
-    #     if trail.sum>best_trail.sum:
-    #         best_trail=trail
-    #
-    # txt='The sum is '+str(best_trail.sum)
-    # print(txt)
-    # txt='The summed up element indices are:\n'+str([p.pos for p in best_trail.points])
-    # print(txt)
+        if trail.sum>best_trail.sum:
+            best_trail=trail
+    
+    txt='The sum is '+str(best_trail.sum)
+    print(txt)
+    txt='The summed up element indices are:\n'+str([p.pos for p in best_trail.points])
+    print(txt)
 
 if __name__ == "__main__":
     parser = argparse.ArgumentParser()
