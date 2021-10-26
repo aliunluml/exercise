@@ -19,7 +19,15 @@ class Trail:
         self.end=point.pos
 
 def prune(trails,new_trails):
-    len_same_end=len(trails)
+    result=[trails[0],new_trails[-1]]
+    for trail,new_trail in zip(trails[1:],new_trails[:-1])
+        assert (trail.end is new_trail.end)
+        if trail.sum>new_trail.sum:
+            result.append(trail)
+        else:
+            result.append(new_trail)
+    return result
+
 
 
 def main(args):
@@ -40,11 +48,15 @@ def main(args):
         trails=prune(trails,new_trails)
         y+=1
 
+    best_trail=Trail()
+    for trail in trails:
+        if trail.sum>best_trail.sum:
+            best_trail=trail
 
-
-    txt='The sum is '+str(sum)
+    txt='The sum is '+str(best_trail.sum)
     print(txt)
-
+    txt='The summed up element indices are:\n'+str([p.pos for p in best_trail.points])
+    print(txt)
 
 if __name__ == "__main__":
     parser = argparse.ArgumentParser()
