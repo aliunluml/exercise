@@ -53,12 +53,14 @@ def main(args):
             start.add_point(row_points[0])
         y+=1
 
+    lower_triangular_matrix_file.close()
+
 
     best_trail=Trail()
     for trail in trails:
         if trail.sum>best_trail.sum:
             best_trail=trail
-    
+
     txt='The sum is '+str(best_trail.sum)
     print(txt)
     txt='The summed up element indices are:\n'+str([p.pos for p in best_trail.points])
